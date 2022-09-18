@@ -1,0 +1,24 @@
+   userAtomList.forEach(userAtom->{
+                UserAtomDTO userAtomDTO = DextrixConversionUtil.map(userAtom, UserAtomDTO.class);
+                List<EmployeeProject> employeeProjects = userAtom.getEmployeeProject();
+                List<String> employeeProjectList = new ArrayList<>();
+                List<AdminProject> matchingProjects = new ArrayList<>();
+                employeeProjects.forEach(employeeProject -> {
+                    employeeProjectList.add(employeeProject.getAdminProjectId().getProjectName());
+                });
+           if(filterSort != null && filterSort.getFilter().get(userDAOProjectKey)!=null){
+           String[] valueSplit = filterSort.getFilter().get(userDAOProjectKey).toString().split("\\\\");
+                       for(String str : valueSplit) {
+                       for(String project : employeeProjectList) {
+                           if (project.equalsIgnoreCase(str)) {
+                               matchingProjects.add(adminProjectsDAO.findByProjectName(project));
+                               break;
+                           }
+                    }}
+           }
+           else {
+                  employeeProjects.forEach(employeeProject -> {
+                      matchingProjects.add(employeeProject.getAdminProjectId());
+                  });
+           }
+                userAtomDTO.setProjectName(matchingProjects);
