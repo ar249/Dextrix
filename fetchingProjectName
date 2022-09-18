@@ -1,0 +1,10 @@
+if(key.contains(projectKey)){
+                        Path<Object> demoResourceJoin = root.join("employeeProject",JoinType.INNER).join("adminProjectId",JoinType.INNER);
+                        String[] valueSplit = value.toString().split("\\\\");
+                        List<Predicate> orPredicate = new ArrayList<>();
+                        for (String valueArray : valueSplit) {
+                            Predicate predicateRegion = criteriaBuilder.equal(demoResourceJoin.get("projectName"), valueArray);
+                            orPredicate.add(predicateRegion);
+                    }
+                        predicates.add(criteriaBuilder.or(orPredicate.toArray(new Predicate[orPredicate.size()])));
+                }
